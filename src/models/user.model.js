@@ -57,8 +57,8 @@ const userSchema = new Schema({
 // ab humne padha h middle ware me eror req,res, next ka ...or middle ware ke flag me next ka referance to hona hi chahiye is liye humne ise function me likha h ..ab jb next ka kaam ho jayega to hum aage call krenge ki ab kaam ho gya h
 
 userSchema.pre("save", async function(next) {
-    if(!this.modified("password")) next();
-    this.password = bcrypt.hash(this.password,10) //jb v data save ho rha ho usme se password ko lo encrypt krke save kr do..this.password use kiya h password ko access krne ke liye or us password ko encrypt krne ke liye bcrypt.hash use kiya or rounds ke liye humne 10 use kiya 
+    if(!this.modified("password")) return next();
+    this.password = await bcrypt.hash(this.password,10) //jb v data save ho rha ho usme se password ko lo encrypt krke save kr do..this.password use kiya h password ko access krne ke liye or us password ko encrypt krne ke liye bcrypt.hash use kiya or rounds ke liye humne 10 use kiya 
     next() // jb kaam ho jaY TO NEXT PE AA Jao.. 
 })
 //ek problem aa gai h jb v data save krenge hr baar ye password ko save krega..to hum ye krenge ki jb v koi password field me change kre jese password update, first time password change tb hi ye code run kro wrna mt kro...to humek if condition likhenge..ki kya wo modified h ya nhi to hum ase krenge check if(!this.modified("password")) next(); agr modified nhi hua h to pre nhi lgega ..agr modifie hua h to bcrypt walacode chl jayega
